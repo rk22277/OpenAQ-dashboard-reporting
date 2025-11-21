@@ -1,0 +1,10 @@
+city,pm25_locations,sample_location_id,sample_locality,last_pm25_time,recommendation
+Los Angeles,50,1575,Los Angeles - N. Mai,2016-03-06T20:00:00Z,Include (timestamp parse unsure) ⚠️
+Toronto,20,1647,Toronto Downtown,2016-03-06T20:00:00Z,Include (timestamp parse unsure) ⚠️
+Chicago,24,424,Chicago-Naperville-Joliet,2016-03-06T20:00:00Z,Include (timestamp parse unsure) ⚠️
+San Jose,28,2007,San Jose-Sunnyvale-Santa Clara,2016-03-06T20:00:00Z,Include (timestamp parse unsure) ⚠️
+McKinney,2,2027502,Creekview,2023-12-30T00:00:00Z,Include (timestamp parse unsure) ⚠️
+Delhi,50,13,"Delhi Technological University, Delhi - CPCB",2016-11-02T19:00:00Z,Include (timestamp parse unsure) ⚠️
+Bengaluru,19,412,"Peenya, Bengaluru - KSPCB",2017-02-18T22:00:00Z,Include (timestamp parse unsure) ⚠️
+Mumbai,43,2598,Navi Mumbai Municipal Corporation Airoli,2016-03-21T19:00:00Z,Include (timestamp parse unsure) ⚠️
+Hyderabad,14,407,"Zoo Park, Hyderabad - TSPCB",2016-03-21T19:00:00Z,Include (timestamp parse unsure) ⚠️

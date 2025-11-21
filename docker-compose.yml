@@ -1,0 +1,76 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:15
+    container_name: pg
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB}
+    # ports:
+    #   - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+
+  dbt:
+    build:
+      context: ./dbt
+    working_dir: /usr/app
+    volumes:
+      - ./dbt:/usr/app
+    environment:
+      DBT_USER: ${PG_USER}
+      DBT_PASSWORD: ${PG_PASSWORD}
+      DBT_HOST: postgres
+      DBT_PORT: 5432
+      DBT_DBNAME: ${PG_DB}
+    depends_on:
+      - postgres
+
+  ingestion:
+    image: python:3.11-slim
+    container_name: ingestion
+    working_dir: /app
+    volumes:
+      - ./ingestion:/app
+    environment:
+      PG_HOST: postgres
+      PG_PORT: "5432"
+      PG_USER: ${PG_USER}
+      PG_PASSWORD: ${PG_PASSWORD}
+      PG_DB: ${PG_DB}
+      OPENAQ_API_KEY: ${OPENAQ_API_KEY}
+    # We install deps at runtime for simplicity; can be baked into a Dockerfile later.
+    entrypoint: bash -lc "pip install -r requirements.txt && python fetch_openaq.py --hours 24"
+
+  superset:
+    image: apache/superset:3.1.1
+    container_name: superset
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_LOAD_EXAMPLES: "no"
+      SUPERSET_SECRET_KEY: "this_is_not_secure_change_me"
+      SUPERSET_ADMIN_USER: "admin"
+      SUPERSET_ADMIN_PASSWORD: "admin"
+      SUPERSET_ADMIN_EMAIL: "admin@example.com"
+    depends_on:
+      - postgres
+    command: >
+      /bin/bash -c "
+      superset db upgrade &&
+      superset fab create-admin --username admin --firstname Superset --lastname Admin --email admin@example.com --password admin &&
+      superset init &&
+      superset run -h 0.0.0.0 -p 8088
+      "
+
+volumes:
+  pgdata:

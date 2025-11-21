@@ -1,0 +1,8 @@
+name: "openaq_transform"
+version: "1.0"
+profile: "openaq_profile"
+model-paths: ["models"]
+
+models:
+  openaq_transform:
+    +materialized: table
