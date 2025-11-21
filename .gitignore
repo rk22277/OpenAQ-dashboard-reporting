@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual envs
+.env
+venv/
+*.env
+
+# Docker artifacts
+pgdata/
+*.log
+
+# Superset cache
+superset_home/
+
+# DBT compiled files
+dbt/target/
+dbt/.user.yml
+dbt/logs/
