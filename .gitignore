@@ -18,3 +18,6 @@ superset_home/
 dbt/target/
 dbt/.user.yml
 dbt/logs/
+
+# macOS
+.DS_Store

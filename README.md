@@ -1,1 +1,1 @@
-This Repo has code that powers the AQ monitoring dashboard 
+This Repo has code that powers the AQI monitoring dashboard 
