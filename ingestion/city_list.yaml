@@ -1,13 +1,13 @@
 cities:
-  Los Angeles: {lat: 34.0522, lon: -118.2437, radii_m:25000}
-  Toronto:     {lat: 43.6532, lon:  -79.3832, radii_m:25000}
-  Chicago:     {lat: 41.8781, lon:  -87.6298, radii_m:25000}
-  San Jose:    {lat: 37.3382, lon: -121.8863, radii_m:25000}
-  McKinney:    {lat: 33.1976, lon:  -96.6153, radii_m:25000}
-  Delhi:       {lat: 28.6139, lon:   77.2090, radii_m:25000}
-  Bengaluru:   {lat: 12.9716, lon:   77.5946, radii_m:25000}
-  Mumbai:      {lat: 19.0760, lon:   72.8777, radii_m:25000}
-  Hyderabad:   {lat: 17.3850, lon:   78.4867, radii_m:25000}
+  Los Angeles: {lat: 34.0522, lon: -118.2437, radius_m: 25000}
+  Toronto:     {lat: 43.6532, lon:  -79.3832, radius_m: 25000}
+  Chicago:     {lat: 41.8781, lon:  -87.6298, radius_m: 25000}
+  San Jose:    {lat: 37.3382, lon: -121.8863, radius_m: 25000}
+  McKinney:    {lat: 33.1976, lon:  -96.6153, radius_m: 25000}
+  Delhi:       {lat: 28.6139, lon:   77.2090, radius_m: 25000}
+  Bengaluru:   {lat: 12.9716, lon:   77.5946, radius_m: 25000}
+  Mumbai:      {lat: 19.0760, lon:   72.8777, radius_m: 25000}
+  Hyderabad:   {lat: 17.3850, lon:   78.4867, radius_m: 25000}
 
-
-# radii_m: [25000, 50000, 100000, 150000]
+# OpenAQ v3 /locations caps `radius` at 25000 m, so every fallback value must be <= 25000.
+radii_m: [25000]

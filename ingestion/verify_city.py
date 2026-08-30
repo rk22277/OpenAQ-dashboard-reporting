@@ -43,9 +43,10 @@ def check_city(city, lat, lon, radius_m):
     sensor_id = pm25_sensors[0].get("id")
 
     # 3) Get most recent hourly value in last 30 days (limit 1)
-    since = iso_utc(datetime.datetime.utcnow() - timedelta(days=30))
+    since = iso_utc(datetime.datetime.now(timezone.utc) - timedelta(days=30))
     hours = api_get(f"/sensors/{sensor_id}/hours", {
-        "date_from": since, "limit": 1, "page": 1
+        # v3 uses `datetime_from` (not `date_from`); sort desc so limit=1 is the newest.
+        "datetime_from": since, "sort_order": "desc", "limit": 1, "page": 1
     }).get("results", [])
 
     if hours:
@@ -65,10 +66,15 @@ def check_city(city, lat, lon, radius_m):
 
         result["last_pm25_time"] = observed
 
-        # Recommend include if we got a reading in last 14 days
-        fresh_cutoff = datetime.datetime.utcnow() - timedelta(days=14)
+        # Recommend include if we got a reading in last 14 days.
+        # Use an aware cutoff: `observed` parses to an aware datetime, and comparing
+        # aware vs naive raises TypeError (which is why every row previously fell
+        # through to the "timestamp parse unsure" branch).
+        fresh_cutoff = datetime.datetime.now(timezone.utc) - timedelta(days=14)
         try:
             obs_dt = datetime.datetime.fromisoformat(observed.replace("Z", "+00:00"))
+            if obs_dt.tzinfo is None:
+                obs_dt = obs_dt.replace(tzinfo=timezone.utc)
             result["recommendation"] = "Include ✅" if obs_dt >= fresh_cutoff else "Stale (<14d) ⚠️"
         except Exception:
             result["recommendation"] = "Include (timestamp parse unsure) ⚠️"
